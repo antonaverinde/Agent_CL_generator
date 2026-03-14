@@ -45,7 +45,7 @@ def get_feedback():
     score = input("Score (1-10) or 'approve': ").strip().lower()
 
     if score in ('approve', 'a', ''):
-        return {"approved": True, "user_score": 10, "user_likes": "Approved", "user_dislikes": ""}
+        return {"approved": True, "user_score": 10, "user_likes": ["Approved"], "user_dislikes": []}
 
     try:
         score_int = int(score)
@@ -59,7 +59,7 @@ def get_feedback():
     return {
         "approved": False,
         "user_score": score_int,
-        "user_likes": likes,
-        "user_dislikes": dislikes,
+        "user_likes": [likes],
+        "user_dislikes": [dislikes],
         "edit_model":  "gpt4o"#"claude_opus" if model == "2" else
     }

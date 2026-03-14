@@ -88,9 +88,16 @@ def node_edit(state: CoverLetterState) -> dict:
     # Use the appropriate bio based on category
     bio = state["bio_gpt"] if state["category"] == "engineering" else state["bio_claude"]
 
+    # Build feedback from ALL rounds, not just current
+    all_dislikes = state.get("user_dislikes", [])
+    if len(all_dislikes) > 1:
+        feedback = "\n".join(f"Round {i+1}: {fb}" for i, fb in enumerate(all_dislikes))
+    else:
+        feedback = all_dislikes[0] if all_dislikes else ""
+
     edited = edit_cover_letter(
         state["current_letter"],
-        state["user_dislikes"],
+        feedback,
         bio,
         insights,
         state.get("edit_model", "gpt4o")
@@ -106,19 +113,19 @@ def node_save_insights(state: CoverLetterState) -> dict:
     """Save user feedback to insights BEFORE editing."""
     current = load_insights()
 
-    # Extract new insights from current feedback
+    # Extract insights from latest round only (previous rounds already saved)
+    likes = state.get("user_likes", [])
+    dislikes = state.get("user_dislikes", [])
+    latest_likes = likes[-1] if likes else ""
+    latest_dislikes = dislikes[-1] if dislikes else ""
+
     new_insights = extract_insights_from_feedback(
-        state.get("user_likes", ""),
-        state.get("user_dislikes", ""),
-        current
+        latest_likes, latest_dislikes, current
     )
 
     # Merge and save immediately
     merged = merge_insights(
-        current,
-        new_insights,
-        state.get("user_likes", ""),
-        state.get("user_dislikes", "")
+        current, new_insights, latest_likes, latest_dislikes
     )
     save_insights(merged)
 

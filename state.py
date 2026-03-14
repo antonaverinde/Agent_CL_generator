@@ -1,4 +1,5 @@
 """LangGraph state definitions for Cover Letter Agent."""
+import operator
 from typing import TypedDict, Optional, Annotated
 from langgraph.graph.message import add_messages
 
@@ -27,10 +28,10 @@ class CoverLetterState(TypedDict):
     # Current working version
     current_letter: str
 
-    # Human feedback
+    # Human feedback (accumulated across edit rounds via operator.add)
     user_score: int
-    user_likes: str
-    user_dislikes: str
+    user_likes: Annotated[list[str], operator.add]
+    user_dislikes: Annotated[list[str], operator.add]
     approved: bool
 
     # Edit control

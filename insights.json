@@ -5,36 +5,25 @@
   ],
   "content": [
     "Focus on financial, data-driven, and complex problem-solving tasks",
-    "Emphasize 'strong self-researcher' status and the ability to work without supervision",
-    "Highlight that current and Master\u2019s projects were completed entirely independently",
-    "Specify experience with thermographic time-series image sequences when discussing thermography"
+    "Emphasize status as a 'strong self-researcher' who works without supervision",
+    "Highlight that all current and Master\u2019s projects were completed entirely independently",
+    "Use the specific term 'thermographic time-series image sequences' for thermography work"
   ],
   "structure": [
-    "Use the specific opening: 'Dear hiring team'",
-    "Use the direct introduction: 'My name is Anton Averin, I would like to be a [Role]'",
+    "Use the salutation: 'Dear {Company name} hiring team'",
+    "Use the direct intro: 'My name is Anton Averin, I would like to be a [Role]'",
     "Maintain a logical flow from introduction to specific project achievements"
   ],
   "avoid": [
     "Vague filler, clich\u00e9s, and ambiguous introductions",
     "Mentioning SQL",
-    "Soft skills implying a need for team reliance or supervision",
-    "The pattern '{Dear Company name} hiring team'"
+    "Soft skills implying a need for team reliance or supervision"
   ],
   "history": [
     {
-      "date": "2026-02-08T17:20:46.137956",
-      "likes": "Compacted from 6 sessions",
+      "date": "2026-03-14T13:02:12.385933",
+      "likes": "Compacted from 3 sessions",
       "dislikes": ""
-    },
-    {
-      "date": "2026-03-14T11:45:02.171766",
-      "likes": "",
-      "dislikes": "Use pattern {Dear Company name} hiring team"
-    },
-    {
-      "date": "2026-03-14T11:47:27.999838",
-      "likes": "",
-      "dislikes": "also when speaking about thermography try to add that worked with thermographic time-series image sequences"
     }
   ]
 }

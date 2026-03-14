@@ -13,8 +13,8 @@ OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 MODELS = {
     "gemini_flash": "google/gemini-3-flash-preview",#"google/gemini-2.0-flash-001",
     "gpt4o": "openai/gpt-5.2",
-    "claude_sonnet": "anthropic/claude-sonnet-4.5",
-    "claude_opus": "anthropic/claude-opus-4.5",
+    "claude_sonnet": "anthropic/claude-sonnet-4.6",
+    "claude_opus": "anthropic/claude-opus-4.6",
 }
 
 
@@ -167,11 +167,12 @@ CANDIDATE BACKGROUND (for reference):
 USER'S ACCUMULATED PREFERENCES:
 {insights}
 
-USER'S FEEDBACK THIS ROUND:
+USER'S FEEDBACK (all rounds):
 {feedback}
 
 RULES:
-- Implement ALL requested changes
+- Implement ALL requested changes from ALL rounds
+- PRESERVE changes made in previous rounds — do NOT revert earlier fixes
 - Keep 250-300 words, 3 paragraphs
 - Do NOT draw physics-business parallels
 - Focus on data skills, independent work, ML/AI expertise
