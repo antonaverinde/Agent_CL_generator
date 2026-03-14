@@ -436,4 +436,118 @@ Which model should fix it?
 
 ---
 
+## Current Implementation (as of March 2026)
+
+### File Structure
+
+```
+CV_agent/
+├── .claude/
+│   ├── agents/
+│   │   └── langgraph-specialist.md    # LangGraph coding agent
+│   └── skills/
+│       └── cv-agent-context/
+│           └── SKILL.md               # Auto-loads architecture context
+├── models.py                          # OpenRouter API + all LLM calls
+├── nodes.py                           # LangGraph node functions
+├── state.py                           # CoverLetterState TypedDict
+├── graph.py                           # StateGraph definition + checkpointing
+├── memory.py                          # Persistent insights (insights.json I/O)
+├── utils.py                           # File save (.docx) + CLI feedback
+├── compact_insights.py                # Standalone insights cleanup tool
+├── orchestrator.ipynb                 # Full interactive notebook (V1)
+├── orchestrator_V2.ipynb              # Streamlined all-in-one notebook
+├── insights.json                      # Accumulated user preferences
+├── .env                               # OpenRouterApi key
+├── .gitignore
+└── CLs_docx/                          # Generated cover letters
+    └── {company}_{position}_{YYYYMMDD_HHMM}/
+        └── cover_letter_{company}.docx
+```
+
+### Actual Models Used (via OpenRouter)
+
+| Key | Model ID | Role |
+|-----|----------|------|
+| `gemini_flash` | `google/gemini-3-flash-preview` | Classification, insight extraction |
+| `gpt4o` | `openai/gpt-5.2` | Generation + editing |
+| `claude_sonnet` | `anthropic/claude-sonnet-4.5` | Generation |
+| `claude_opus` | `anthropic/claude-opus-4.5` | Critic/fusion |
+
+### Module Responsibilities
+
+**models.py** - Low-level API layer
+- `call_llm()` - Generic OpenRouter wrapper (temp=0.7)
+- `classify_job()` - Returns `{category, confidence}`
+- `generate_cover_letter()` - With insights injection
+- `critique_and_fuse()` - Returns `{analysis_text, fusion_letter}`
+- `edit_cover_letter()` - With bio context + insights
+- `extract_insights_from_feedback()` - Structured insight extraction via LLM
+- `compact_insights()` - LLM-based deduplication
+
+**nodes.py** - LangGraph node wrappers
+- `node_classify`, `node_load_bios`, `node_generate`, `node_critic`
+- `node_edit`, `node_save_insights`, `node_compact_insights`
+- Loads `.docx` bios from `/home/anton/Jobsearch_Anton_2026/`
+
+**graph.py** - Workflow orchestration
+- `build_graph()` - StateGraph with conditional routing
+- `create_graph_with_memory()` - Compiles with MemorySaver + interrupt checkpoints
+- `get_graph_visualization()` - Mermaid/PNG rendering for notebooks
+- Interrupts: `["load_bios", "review"]`
+
+**memory.py** - Persistent preference system
+- `load_insights()` / `save_insights()` - File I/O for insights.json
+- `merge_insights()` - Adds new insights without duplicates, keeps last 20 history
+- `get_insights_for_prompt()` - Formats insights string for LLM prompts
+
+**utils.py** - Helpers
+- `save_cover_letter()` - Creates .docx with Calibri 12pt
+- `get_feedback()` - CLI interactive feedback (score/likes/dislikes)
+
+**state.py** - `CoverLetterState(TypedDict)` with 15 fields:
+- Input: `job_description`
+- Classification: `category`, `confidence`
+- Bios: `bio_gpt`, `bio_claude`
+- Versions: `version_gpt`, `version_claude`
+- Analysis: `analysis_text`, `fusion_letter`
+- Working: `current_letter`
+- Feedback: `user_score`, `user_likes`, `user_dislikes`, `approved`
+- Control: `edit_model`, `edit_rounds`
+- Output: `final_letter`
+
+### Graph Flow (Actual)
+
+```
+START → classify → load_bios → generate → critic → review
+                                                      ↓
+                                            ┌─── approved? ───┐
+                                            │ NO              │ YES
+                                            ↓                 ↓
+                                      save_insights    compact_insights
+                                            ↓                 ↓
+                                          edit              END
+                                            ↓
+                                          review (loop)
+```
+
+### Implementation Status
+
+- [x] Phase 1: Core Pipeline (complete)
+- [x] Phase 2: Preferences System (insights.json, not preferences.json)
+- [x] Phase 3: Edit Loop (multi-round with model choice)
+- [ ] Phase 4: Polish (analytics, cost tracking, quality trends)
+
+### Key Differences from Original Plan
+
+1. **insights.json** replaced `preferences.json` - simpler schema with tone/content/structure/avoid/history
+2. **Bio files are .docx** not .md - loaded via python-docx
+3. **Compact insights node** added to graph - runs on approval, deduplicates via LLM
+4. **Save insights node** added - runs before edit, persists feedback immediately
+5. **Two notebook variants** - V1 (detailed step-by-step) and V2 (streamlined)
+6. **Model upgrades** - GPT-5.2 replaced GPT-4o, Gemini 3 Flash replaced Gemini 2.0 Flash
+7. **Critic output format** - Uses `===ANALYSIS===`/`===FUSION===` delimiters instead of JSON
+
+---
+
 **This architecture gives you full control while learning your style over time.**
