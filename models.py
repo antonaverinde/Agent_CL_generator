@@ -12,9 +12,9 @@ OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 MODELS = {
     "gemini_flash": "google/gemini-3-flash-preview",#"google/gemini-2.0-flash-001",
-    "gpt4o": "openai/gpt-5.2",
+    "gpt4o": "openai/gpt-5.5",#"anthropic/claude-sonnet-4.6",#"openai/gpt-5.2",
     "claude_sonnet": "anthropic/claude-sonnet-4.6",
-    "claude_opus": "anthropic/claude-opus-4.6",
+    "claude_opus": "anthropic/claude-opus-4.7",#'openai/gpt-5.5'
 }
 
 
@@ -39,7 +39,15 @@ def call_llm(model_key: str, prompt: str, system_prompt: str = "", max_tokens: i
 
     response = requests.post(OPENROUTER_URL, headers=headers, json=payload)
     response.raise_for_status()
-    return response.json()["choices"][0]["message"]["content"]
+    result = response.json()
+    choice = result["choices"][0]
+    finish_reason = choice.get("finish_reason")
+    if finish_reason == "length":
+        print(
+            f"WARNING: {model} output was cut off by max_tokens={max_tokens}. "
+            "Increase max_tokens if the text is incomplete."
+        )
+    return choice["message"]["content"]
 
 
 def classify_job(job_description: str) -> dict:
@@ -82,7 +90,7 @@ IMPORTANT RULES:
 - Do not try to make 100% match between candidate background and job description. Instead, highlight strengths as a data-driven problem solver with strong independent work ethic and passion for ML/AI.
 - Maximum 300 words, 3 paragraphs
 - No generic phrases, no "I am excited", no "team player"
-- No closing signature needed"""
+- End with 'Sincerely,\nAnton Averin'"""
 
     prompt = f"""Write a cover letter for this job.
 
@@ -101,7 +109,7 @@ Requirements:
 
 Output ONLY the letter text."""
 
-    return call_llm(model_key, prompt, system_prompt, max_tokens=600)
+    return call_llm(model_key, prompt, system_prompt, max_tokens=900)
 
 
 def critique_and_fuse(version_a: str, version_b: str, job_description: str) -> dict:
@@ -137,7 +145,7 @@ Format:
 ===FUSION===
 [Your ~300 word fused cover letter here]"""
 
-    response = call_llm("claude_opus", prompt, max_tokens=1200)
+    response = call_llm("claude_opus", prompt, max_tokens=2000)
 
     analysis = ""
     fusion = ""
@@ -176,11 +184,11 @@ RULES:
 - Keep 250-300 words, 3 paragraphs
 - Do NOT draw physics-business parallels
 - Focus on data skills, independent work, ML/AI expertise
-- No signature needed
+- ALWAYS end with 'Sincerely,\nAnton Averin' — never remove it
 
 Output ONLY the edited letter."""
 
-    return call_llm(model_key, prompt, max_tokens=600)
+    return call_llm(model_key, prompt, max_tokens=900)
 
 
 def extract_insights_from_feedback(user_likes: str, user_dislikes: str, current_insights: dict) -> dict:

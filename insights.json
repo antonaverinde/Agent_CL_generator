@@ -1,29 +1,75 @@
 {
   "tone": [
-    "Professional and formal",
-    "Assertive and self-assured regarding independent capabilities"
+    "Professional, assertive, and direct",
+    "Strictly factual and data-driven without vague fillers",
+    "Technically granular regarding methodology and architecture",
+    "Autonomous and self-directed",
+    "Authentic regarding skill levels and German proficiency (Good, not fluent)",
+    "Ambitious and growth-oriented",
+    "Competitive (desire to be at the forefront/not on the 'back plan')",
+    "Optimistic and strength-oriented",
+    "Confident focus on existing qualifications rather than gap-filling"
   ],
   "content": [
-    "Focus on financial, data-driven, and complex problem-solving tasks",
-    "Emphasize status as a 'strong self-researcher' who works without supervision",
-    "Highlight that all current and Master\u2019s projects were completed entirely independently",
-    "Use the specific term 'thermographic time-series image sequences' for thermography work"
+    "Identity: Anton Averin, ML Researcher specializing in end-to-end AI pipelines",
+    "Core Stack: PyTorch, CNN, U-Net, LangGraph, signals, and time-series",
+    "Finance Expertise: Fractional differentiation, Triple Barrier Method, XGBoost, and Time-Series Transformers (Chronos, Lag-Llama, TimesFM)",
+    "Key Achievement: Defect detection in thermographic physics via rigorous data curation",
+    "Emphasis on deep scientific research within existing domain expertise",
+    "Focus on high-level peer environments and expert-led teams",
+    "Highlighting the 'perfect environment to grow' through technical challenge"
   ],
   "structure": [
-    "Use the salutation: 'Dear {Company name} hiring team'",
-    "Use the direct intro: 'My name is Anton Averin, I would like to be a [Role]'",
-    "Maintain a logical flow from introduction to specific project achievements"
+    "Salutation: 'Dear [Company Name] hiring team'",
+    "Introduction: Immediate statement of name and specific role interest",
+    "Body: Logical progression from technical background to data-backed achievements",
+    "Closing: Formal sign-off ('Best Regards' or 'Sincerely') followed by 'Anton Averin'"
   ],
   "avoid": [
-    "Vague filler, clich\u00e9s, and ambiguous introductions",
-    "Mentioning SQL",
-    "Soft skills implying a need for team reliance or supervision"
+    "Industries: DeFi, Web3, Blockchain, Cryptography, and zkVMs",
+    "Tech/Tools: Vertex AI, Databricks, Kubernetes, and the SPIE publication",
+    "Style: Clich\u00e9s, informal phrasing, and implying a need for supervision",
+    "Content: Hallucinating financial experience or unlisted skills",
+    "Generalist roles outside of core scientific expertise",
+    "Support or secondary roles (avoiding the 'back plan')",
+    "Explicitly mentioning missing requirements (e.g., lack of a PhD)",
+    "Pessimistic framing of qualifications",
+    "Highlighting 'one-to-one' profile mismatches",
+    "Focusing on weaknesses or lack of specific credentials",
+    "Mentioning language skills or proficiency levels",
+    "Avoid using M dashes",
+    "Mentioning: that i found pixel-level cross-validation leakage in the baseline workflow"
   ],
   "history": [
     {
-      "date": "2026-03-14T13:02:12.385933",
-      "likes": "Compacted from 3 sessions",
+      "date": "2026-05-20T10:41:20.573624",
+      "likes": "Compacted from 2 sessions",
       "dislikes": ""
+    },
+    {
+      "date": "2026-06-12T13:25:30.022825",
+      "likes": "",
+      "dislikes": ""
+    },
+    {
+      "date": "2026-06-17T08:57:13.900291",
+      "likes": "",
+      "dislikes": "Here I can do what I like - science in the domain where I have expertise. There a lot of high level experts and it a perfect environment to grow, as I dont like to be on a back plan."
+    },
+    {
+      "date": "2026-06-17T09:10:00.284075",
+      "likes": "",
+      "dislikes": "I do not hold a PhD in plasma physics, so I am not a one-to-one match for the profile you describe-just dont mention it ist very pessimistic focus strength not weakness"
+    },
+    {
+      "date": "2026-06-17T10:51:53.209295",
+      "likes": "",
+      "dislikes": ""
+    },
+    {
+      "date": "2026-06-17T11:09:25.297936",
+      "likes": "",
+      "dislikes": "remove part about language"
     }
   ]
 }
